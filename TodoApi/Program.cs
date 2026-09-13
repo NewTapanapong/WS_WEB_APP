@@ -45,4 +45,24 @@ app.MapPost("/api/todos",(TodopostDto dto) =>
     return Results.Created($"/api/todos/{todo.id}", todo);
 });
 
+app.MapPut("/api/todos/{id}", (int id, TodoputDTO dto) =>
+{
+    try
+    {
+        var index =todos.FindIndex(t => t.id ==id);
+        if (index == -1) return Results.NotFound();
+        todos[index] = todos[index] with 
+        { 
+            title = dto.title,
+            isCompleted = dto.isCompleted
+        };
+
+        return Results.Ok(todos[index]);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(ex.Message);
+    }
+});
+
 app.Run();
