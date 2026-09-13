@@ -31,69 +31,69 @@ var todoGroup = app.MapGroup("/api/todos").WithTags("Todos");
 #region in-Memory Endpoints
 
 // var todos = new List<TodoGetDto>
-// {
+//  {
 //     new(1,"Learn C#", true),
-//     new(2,"Learn ASP.NET Core", false),
-//     new(3,"Build a web API", false)
-// };
+//      new(2,"Learn ASP.NET Core", false),
+//      new(3,"Build a web API", false)
+//  };
 
-// todoGroup.MapGet("/api/todos",() =>
-// Results.Ok(todos));
+//  todoGroup.MapGet("/api/todos",() =>
+//  Results.Ok(todos));
 
-// todoGroup.MapGet("/api/todos", () => Results.Ok(todos));
+//  todoGroup.MapGet("/api/todos", () => Results.Ok(todos));
 
-// todoGroup.MapGet("/api/todos/{id}", (int id) =>
-// {
-//     var todo = todos.FirstOrDefault(t => t.id == id);
+//  todoGroup.MapGet("/api/todos/{id}", (int id) =>
+//  {
+//      var todo = todos.FirstOrDefault(t => t.id == id);
 
-//     return todo is not null ? Results.Ok(todo) : Results.NotFound();
-// });
+//      return todo is not null ? Results.Ok(todo) : Results.NotFound();
+//  });
 
-// todoGroup.MapPost("/api/todos",(TodopostDto dto) =>
-// {
-//     var nextId = todos.Count == 0 ? 1 : todos.Max(t => t.id) + 1;
+//  todoGroup.MapPost("/api/todos",(TodopostDto dto) =>
+//  {
+//      var nextId = todos.Count == 0 ? 1 : todos.Max(t => t.id) + 1;
 
-//     var todo = new TodoGetDto(nextId, dto.title, false);
-//     todos.Add(todo);
+//      var todo = new TodoGetDto(nextId, dto.title, false);
+//      todos.Add(todo);
 
-//     return Results.Created($"/api/todos/{todo.id}", todo);
-// });
+//      return Results.Created($"/api/todos/{todo.id}", todo);
+//  });
 
-// todoGroup.MapPut("/api/todos/{id}", (int id, TodoputDTO dto) =>
-// {
-//     try
-//     {
-//         var index =todos.FindIndex(t => t.id ==id);
-//         if (index == -1) return Results.NotFound();
-//         todos[index] = todos[index] with 
-//         { 
-//             title = dto.title,
-//             isCompleted = dto.isCompleted
-//         };
+//  todoGroup.MapPut("/api/todos/{id}", (int id, TodoputDTO dto) =>
+//  {
+//      try
+//      {
+//          var index =todos.FindIndex(t => t.id ==id);
+//          if (index == -1) return Results.NotFound();
+//          todos[index] = todos[index] with 
+//          { 
+//              title = dto.title,
+//              isCompleted = dto.isCompleted
+//          };
 
-//         return Results.Ok(todos[index]);
-//     }
-//     catch (Exception ex)
-//     {
-//         return Results.Problem(ex.Message);
-//     }
-// });
+//          return Results.Ok(todos[index]);
+//      }
+//      catch (Exception ex)
+//      {
+//          return Results.Problem(ex.Message);
+//      }
+//  });
 
-// todoGroup.MapDelete("/api/todos/{id}", (int id) =>
-// {
-//     try
-//     {
-//         var todo = todos.FirstOrDefault(t => t.id == id);
-//         if (todo is null) return Results.NotFound();
+//  todoGroup.MapDelete("/api/todos/{id}", (int id) =>
+//  {
+//      try
+//      {
+//          var todo = todos.FirstOrDefault(t => t.id == id);
+//          if (todo is null) return Results.NotFound();
 
-//         todos.Remove(todo);
-//         return Results.NoContent();
-//     }
-//     catch (Exception ex)
-//     {
-//         return Results.Problem(ex.Message);
-//     }
-// });
+//          todos.Remove(todo);
+//          return Results.NoContent();
+//      }
+//      catch (Exception ex)
+//      {
+//          return Results.Problem(ex.Message);
+//      }
+//  });
 
 #endregion
 
@@ -119,7 +119,7 @@ todoGroup.MapGet("/", async (AppDbContext db, TodopostDto dto) =>
         CreatedAt = DateTime.UtcNow
     };
 
-    db.Todos.Add(todo);
+   db.Todos.Add(todo);
     await db.SaveChangesAsync();
     
     var todoGetDto = new TodoGetDto(todo.id, todo.title, todo.isCompleted);
