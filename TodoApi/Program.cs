@@ -97,6 +97,36 @@ var todoGroup = app.MapGroup("/api/todos").WithTags("Todos");
 
 #endregion
 
+#region Database Endpoints
 
+todoGroup.MapGet("/", async (AppDbContext db) =>
+{
+    var todos = await db.Todos.ToListAsync();
+
+    return todos.Count ==0 ? Results.NotFound() : Results.Ok(todos);
+});
+
+todoGroup.MapGet("/", async (AppDbContext db, TodopostDto dto) =>
+{
+    var lastTodo = await db.Todos.OrderByDescending(t => t.id).FirstOrDefaultAsync();
+    var nextid = lastTodo is null ? 1 : lastTodo.id + 1;
+
+    var todo = new TodoItem
+    {
+        id = nextid,
+        title = dto.title,
+        isCompleted = false,
+        CreatedAt = DateTime.UtcNow
+    };
+
+    db.Todos.Add(todo);
+    await db.SaveChangesAsync();
+    
+    var todoGetDto = new TodoGetDto(todo.id, todo.title, todo.isCompleted);
+
+    return Results.Created($"/{todo.id}", todoGetDto);
+});
+
+#endregion
 
 app.Run();
